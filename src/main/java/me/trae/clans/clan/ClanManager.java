@@ -1,5 +1,6 @@
 package me.trae.clans.clan;
 
+import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.core.framework.SpigotManager;
 import me.trae.core.framework.SpigotPlugin;
@@ -17,6 +18,7 @@ public class ClanManager extends SpigotManager implements IClanManager {
 
     @Override
     public void registerModules() {
+        addModule(new ClanCommand(this));
     }
 
     @Override
