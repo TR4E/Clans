@@ -14,6 +14,16 @@ public class CreateCommand extends ClanSubCommand {
     }
 
     @Override
+    public String getUsage() {
+        return super.getUsage() + " <name>";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Create a Clan";
+    }
+
+    @Override
     public void execute(final Player player, final Client client, final Clan clan, final String[] args) {
         if (clan != null) {
             UtilMessage.message(player, "Clans", "You are already in a Clan!");

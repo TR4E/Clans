@@ -1,6 +1,7 @@
 package me.trae.clans;
 
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.world.WorldManager;
 import me.trae.core.client.ClientManager;
 import me.trae.core.command.CommandManager;
 import me.trae.core.config.ConfigManager;
@@ -22,6 +23,7 @@ public class Clans extends SpigotPlugin {
         addManager(new NetworkManager(this));
         addManager(new RedisManager(this));
         addManager(new UpdaterManager(this));
+        addManager(new WorldManager(this));
 
         // Clans
         addManager(new ClanManager(this));

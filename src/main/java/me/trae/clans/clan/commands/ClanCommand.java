@@ -13,6 +13,11 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
     }
 
     @Override
+    public String getDescription() {
+        return "Clan Management";
+    }
+
+    @Override
     public void execute(final Player player, final Client client, final String[] args) {
     }
 }
