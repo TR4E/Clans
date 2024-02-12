@@ -8,9 +8,12 @@ import me.trae.core.command.CommandManager;
 import me.trae.core.config.ConfigManager;
 import me.trae.core.database.DatabaseManager;
 import me.trae.core.framework.SpigotPlugin;
+import me.trae.core.item.ItemManager;
 import me.trae.core.network.NetworkManager;
+import me.trae.core.player.PlayerManager;
 import me.trae.core.redis.RedisManager;
 import me.trae.core.updater.UpdaterManager;
+import me.trae.framework.shared.utility.enums.ChatColor;
 
 public class Clans extends SpigotPlugin {
 
@@ -22,7 +25,9 @@ public class Clans extends SpigotPlugin {
         addManager(new CommandManager(this));
         addManager(new ConfigManager(this));
         addManager(new DatabaseManager(this));
+        addManager(new ItemManager(this, ChatColor.YELLOW));
         addManager(new NetworkManager(this));
+        addManager(new PlayerManager(this));
         addManager(new RedisManager(this));
         addManager(new UpdaterManager(this));
         addManager(new WorldManager(this));
