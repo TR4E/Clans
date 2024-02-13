@@ -1,6 +1,7 @@
 package me.trae.clans.clan.commands;
 
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.clan.commands.subcommands.CreateCommand;
 import me.trae.core.client.Client;
 import me.trae.core.command.types.PlayerCommand;
 import me.trae.core.utility.UtilMessage;
@@ -11,6 +12,11 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
 
     public ClanCommand(final ClanManager manager) {
         super(manager, "clans", new String[]{"clan", "faction", "gang", "fac", "c", "f", "g"}, Rank.DEFAULT);
+    }
+
+    @Override
+    public void registerSubModules() {
+        addSubModule(new CreateCommand(this));
     }
 
     @Override
