@@ -2,6 +2,7 @@ package me.trae.clans.clan.commands;
 
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.commands.subcommands.CreateCommand;
+import me.trae.clans.clan.commands.subcommands.HelpCommand;
 import me.trae.core.client.Client;
 import me.trae.core.command.types.PlayerCommand;
 import me.trae.core.utility.UtilMessage;
@@ -11,12 +12,13 @@ import org.bukkit.entity.Player;
 public class ClanCommand extends PlayerCommand<ClanManager> {
 
     public ClanCommand(final ClanManager manager) {
-        super(manager, "clans", new String[]{"clan", "faction", "gang", "fac", "c", "f", "g"}, Rank.DEFAULT);
+        super(manager, "clan", new String[]{"faction", "gang", "fac", "c", "f", "g"}, Rank.DEFAULT);
     }
 
     @Override
     public void registerSubModules() {
         addSubModule(new CreateCommand(this));
+        addSubModule(new HelpCommand(this));
     }
 
     @Override
@@ -34,5 +36,10 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
         if (args.length == 0) {
             UtilMessage.message(player, "Clans", "You are not in a Clan.");
         }
+    }
+
+    @Override
+    public String getHelpPrefix() {
+        return "Clans";
     }
 }

@@ -5,6 +5,7 @@ import me.trae.clans.clan.commands.subcommands.abstracts.interfaces.IClanSubComm
 import me.trae.core.client.Client;
 import me.trae.core.command.subcommand.types.PlayerSubCommand;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.utility.enums.ChatColor;
 import org.bukkit.entity.Player;
 
 public abstract class ClanSubCommand extends PlayerSubCommand<ClanCommand> implements IClanSubCommand {
@@ -15,6 +16,11 @@ public abstract class ClanSubCommand extends PlayerSubCommand<ClanCommand> imple
 
     public ClanSubCommand(final ClanCommand manager, final String label) {
         super(manager, label);
+    }
+
+    @Override
+    public ChatColor getUsageChatColor() {
+        return super.getUsageChatColor();
     }
 
     @Override

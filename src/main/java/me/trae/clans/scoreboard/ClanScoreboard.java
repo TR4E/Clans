@@ -17,7 +17,7 @@ public class ClanScoreboard extends MainScoreboard {
         this.addCustomLine(ChatColor.YELLOW, "Clan", "No Clan");
         this.addBlankLine();
 
-        this.addCustomLine(ChatColor.YELLOW, "Territory", ChatColor.GRAY + "Wildernesss");
+        this.addCustomLine(ChatColor.YELLOW, "Territory", ChatColor.GRAY + "Wilderness");
         this.addBlankLine();
 
         this.addCustomLine(ChatColor.YELLOW, "Coins", ChatColor.GOLD + "$1,000,000");
