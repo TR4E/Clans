@@ -18,6 +18,7 @@ import me.trae.core.recharge.RechargeManager;
 import me.trae.core.redis.RedisManager;
 import me.trae.core.server.ServerManager;
 import me.trae.core.updater.UpdaterManager;
+import me.trae.core.weapon.WeaponManager;
 import me.trae.framework.shared.utility.enums.ChatColor;
 
 public class Clans extends SpigotPlugin {
@@ -38,6 +39,7 @@ public class Clans extends SpigotPlugin {
         addManager(new ServerManager(this));
         addManager(new UpdaterManager(this));
         addManager(new WorldManager(this));
+        addManager(new WeaponManager(this));
 
         // Champions
         addManager(new BloodManager(this));
