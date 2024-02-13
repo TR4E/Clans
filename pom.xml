@@ -15,6 +15,7 @@
     </properties>
 
     <dependencies>
+        <!-- Spigot-Core -->
         <dependency>
             <groupId>me.trae</groupId>
             <artifactId>Spigot-Core</artifactId>
@@ -22,6 +23,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Champions -->
         <dependency>
             <groupId>me.trae</groupId>
             <artifactId>Champions</artifactId>

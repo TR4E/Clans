@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public class ClanCommand extends PlayerCommand<ClanManager> {
 
     public ClanCommand(final ClanManager manager) {
-        super(manager, "clan", new String[]{"faction", "gang", "fac", "c", "f", "g"}, Rank.DEFAULT);
+        super(manager, "clans", new String[]{"clan", "faction", "gang", "fac", "c", "f", "g"}, Rank.DEFAULT);
     }
 
     @Override
