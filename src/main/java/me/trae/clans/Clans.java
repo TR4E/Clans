@@ -13,6 +13,7 @@ import me.trae.core.command.CommandManager;
 import me.trae.core.config.ConfigManager;
 import me.trae.core.countdown.CountdownManager;
 import me.trae.core.database.DatabaseManager;
+import me.trae.core.death.DeathManager;
 import me.trae.core.energy.EnergyManager;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.item.ItemManager;
@@ -37,6 +38,7 @@ public class Clans extends SpigotPlugin {
         addManager(new ConfigManager(this));
         addManager(new CountdownManager(this));
         addManager(new DatabaseManager(this));
+        addManager(new DeathManager(this));
         addManager(new EnergyManager(this));
         addManager(new ItemManager(this, ChatColor.YELLOW));
         addManager(new MenuManager(this));
