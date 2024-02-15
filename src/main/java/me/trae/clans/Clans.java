@@ -49,7 +49,6 @@ public class Clans extends SpigotPlugin {
         addManager(new ScoreboardManager(this, ClanScoreboard.class));
         addManager(new ServerManager(this));
         addManager(new UpdaterManager(this));
-        addManager(new WorldManager(this));
 
         // Champions
         addManager(new BloodManager(this));
@@ -59,5 +58,6 @@ public class Clans extends SpigotPlugin {
         // Clans
         addManager(new ClanManager(this));
         addManager(new WeaponManager(this));
+        addManager(new WorldManager(this));
     }
 }
