@@ -36,6 +36,10 @@ public class DisbandCommand extends ClanSubCommand {
             return;
         }
 
+        if (!(this.hasRequiredMemberRole(player, client, clan, true))) {
+            return;
+        }
+
         for (final Player target : UtilServer.getOnlinePlayers()) {
             final ClanRelation clanRelation = this.getModule().getManager().getClanRelationByPlayer(target, player);
 

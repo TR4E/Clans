@@ -52,7 +52,7 @@ public abstract class ClanSubCommand extends PlayerSubCommand<ClanCommand> imple
         }
 
         if (inform) {
-            UtilMessage.simpleMessage(player, "Clans", "You must be <var> to <var>!", Arrays.asList(requiredMemberRole.getChatColor() + requiredMemberRole.getName(), ChatColor.WHITE + this.getDescription()));
+            UtilMessage.simpleMessage(player, "Clans", "You must be <var> to <var>!", Arrays.asList(requiredMemberRole.getChatColor() + "Clan " + requiredMemberRole.getName(), ChatColor.WHITE + this.getDescription()));
         }
 
         return false;
