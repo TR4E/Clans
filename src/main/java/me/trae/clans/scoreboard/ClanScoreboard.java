@@ -1,5 +1,8 @@
 package me.trae.clans.scoreboard;
 
+import me.trae.clans.clan.Clan;
+import me.trae.clans.clan.ClanManager;
+import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.client.Client;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.scoreboard.MainScoreboard;
@@ -14,7 +17,11 @@ public class ClanScoreboard extends MainScoreboard {
 
     @Override
     public void registerLines(final Player player, final Client client) {
-        this.addCustomLine(ChatColor.YELLOW, "Clan", "No Clan");
+        final ClanManager clanManager = this.getInstance().getManagerByClass(ClanManager.class);
+
+        final Clan playerClan = clanManager.getClanByPlayer(player);
+
+        this.addCustomLine(ChatColor.YELLOW, "Clan", playerClan != null ? ClanRelation.SELF.getSuffix() + playerClan.getName() : "No Clan");
         this.addBlankLine();
 
         this.addCustomLine(ChatColor.YELLOW, "Territory", ChatColor.GRAY + "Wilderness");

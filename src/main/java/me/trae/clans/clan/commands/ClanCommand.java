@@ -1,7 +1,9 @@
 package me.trae.clans.clan.commands;
 
+import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.commands.subcommands.CreateCommand;
+import me.trae.clans.clan.commands.subcommands.DisbandCommand;
 import me.trae.clans.clan.commands.subcommands.HelpCommand;
 import me.trae.core.client.Client;
 import me.trae.core.command.types.PlayerCommand;
@@ -18,6 +20,7 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
     @Override
     public void registerSubModules() {
         addSubModule(new CreateCommand(this));
+        addSubModule(new DisbandCommand(this));
         addSubModule(new HelpCommand(this));
     }
 
@@ -33,8 +36,12 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
             return;
         }
 
+        final Clan playerClan = this.getManager().getClanByPlayer(player);
+
         if (args.length == 0) {
-            UtilMessage.message(player, "Clans", "You are not in a Clan.");
+            if (playerClan == null) {
+                UtilMessage.message(player, "Clans", "You are not in a Clan.");
+            }
         }
     }
 
