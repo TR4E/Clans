@@ -6,6 +6,7 @@ import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.core.client.Client;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.scoreboard.MainScoreboard;
+import me.trae.framework.shared.utility.UtilFormat;
 import me.trae.framework.shared.utility.enums.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -31,5 +32,22 @@ public class ClanScoreboard extends MainScoreboard {
         this.addBlankLine();
 
         this.addCustomLine(ChatColor.AQUA, "World Event", "Fishing Frenzy");
+    }
+
+    @Override
+    public String getPlayerTeamPrefix(final Player player, final Player target) {
+        final ClanManager clanManager = this.getInstance().getManagerByClass(ClanManager.class);
+
+        final Clan playerClan = clanManager.getClanByPlayer(player);
+
+        if (playerClan == null) {
+            return super.getPlayerTeamPrefix(player, target);
+        }
+
+        final String clanName = UtilFormat.trimString(playerClan.getName(), 11);
+
+        final ClanRelation clanRelation = clanManager.getClanRelationByClan(clanManager.getClanByPlayer(target), playerClan);
+
+        return clanRelation.getPrefix() + clanName + " " + clanRelation.getSuffix();
     }
 }
