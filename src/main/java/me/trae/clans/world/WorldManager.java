@@ -1,5 +1,6 @@
 package me.trae.clans.world;
 
+import me.trae.clans.world.commands.TrackCommand;
 import me.trae.clans.world.modules.SpringBlock;
 import me.trae.clans.world.modules.WaterBlock;
 import me.trae.core.framework.SpigotPlugin;
@@ -21,6 +22,8 @@ public class WorldManager extends me.trae.core.world.WorldManager {
         addModule(new DisableWeather(this));
 
         // Clans
+        addModule(new TrackCommand(this));
+
         addModule(new SpringBlock(this));
         addModule(new WaterBlock(this));
     }
