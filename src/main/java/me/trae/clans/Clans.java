@@ -4,6 +4,7 @@ import me.trae.champions.blood.BloodManager;
 import me.trae.champions.role.RoleManager;
 import me.trae.champions.skill.SkillManager;
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.effect.EffectManager;
 import me.trae.clans.recipe.RecipeManager;
 import me.trae.clans.scoreboard.ClanScoreboard;
 import me.trae.clans.weapon.WeaponManager;
@@ -60,6 +61,7 @@ public class Clans extends SpigotPlugin {
 
         // Clans
         addManager(new ClanManager(this));
+        addManager(new EffectManager(this));
         addManager(new RecipeManager(this));
         addManager(new WeaponManager(this));
         addManager(new WorldManager(this));
