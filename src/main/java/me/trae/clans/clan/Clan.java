@@ -5,18 +5,21 @@ import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.data.enums.MemberRole;
+import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.interfaces.IClan;
 import me.trae.core.utility.UtilChunk;
 import me.trae.core.utility.UtilLocation;
+import me.trae.framework.shared.utility.UtilJava;
 import me.trae.framework.shared.utility.enums.ChatColor;
-import me.trae.framework.shared.utility.objects.Data;
+import me.trae.framework.shared.utility.interfaces.property.PropertyContainer;
+import me.trae.framework.shared.utility.objects.EnumData;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class Clan implements IClan {
+public class Clan implements IClan, PropertyContainer<ClanProperty> {
 
     private final String name;
 
@@ -44,12 +47,12 @@ public class Clan implements IClan {
         this.founder = player.getUniqueId();
     }
 
-    public Clan(final Data data) {
+    public Clan(final EnumData<ClanProperty> data) {
         this(data.get(String.class, "Key"));
 
-        this.created = data.get(Long.class, "Created");
-        this.founder = UUID.fromString(data.get(String.class, "Founder"));
-        this.home = UtilLocation.fileToLocation(data.get(String.class, "Home"));
+        this.created = data.get(Long.class, ClanProperty.CREATED);
+        this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
+        this.home = UtilLocation.fileToLocation(data.get(String.class, ClanProperty.HOME));
     }
 
     @Override
@@ -250,5 +253,35 @@ public class Clan implements IClan {
     @Override
     public boolean hasHome() {
         return this.getHome() != null;
+    }
+
+    @Override
+    public Object getPropertyByValue(final ClanProperty property) {
+        switch (property) {
+            case TERRITORY:
+                return String.join(",", this.getTerritory());
+            case MEMBERS:
+            case ALLIANCES:
+            case ENEMIES:
+            case PILLAGES:
+                return null;
+            case CREATED:
+                return this.getCreated();
+            case FOUNDER:
+                return this.getFounder().toString();
+            case HOME:
+                return UtilLocation.locationToFile(this.getHome());
+            case ADMIN:
+                return this.isAdmin();
+            case SAFE:
+                return this.isAdmin() && UtilJava.cast(AdminClan.class, this).isSafe();
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<ClanProperty> getProperties() {
+        return Arrays.asList(ClanProperty.values());
     }
 }

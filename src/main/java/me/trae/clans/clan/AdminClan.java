@@ -1,6 +1,8 @@
 package me.trae.clans.clan;
 
+import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.interfaces.IAdminClan;
+import me.trae.framework.shared.utility.objects.EnumData;
 import org.bukkit.entity.Player;
 
 public class AdminClan extends Clan implements IAdminClan {
@@ -13,6 +15,12 @@ public class AdminClan extends Clan implements IAdminClan {
 
     public AdminClan(final String name, final Player player) {
         super(name, player);
+    }
+
+    public AdminClan(final EnumData<ClanProperty> data) {
+        super(data);
+
+        this.safe = data.get(Boolean.class, ClanProperty.SAFE);
     }
 
     @Override
