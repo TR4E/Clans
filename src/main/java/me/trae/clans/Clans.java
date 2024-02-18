@@ -1,6 +1,7 @@
 package me.trae.clans;
 
 import me.trae.champions.blood.BloodManager;
+import me.trae.champions.build.BuildManager;
 import me.trae.champions.role.RoleManager;
 import me.trae.champions.skill.SkillManager;
 import me.trae.clans.clan.ClanManager;
@@ -59,6 +60,7 @@ public class Clans extends SpigotPlugin {
 
         // Champions
         addManager(new BloodManager(this));
+        addManager(new BuildManager(this));
         addManager(new RoleManager(this));
         addManager(new SkillManager(this));
 

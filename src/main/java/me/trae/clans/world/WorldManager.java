@@ -4,6 +4,7 @@ import me.trae.clans.world.commands.TrackCommand;
 import me.trae.clans.world.modules.SpringBlock;
 import me.trae.clans.world.modules.WaterBlock;
 import me.trae.core.framework.SpigotPlugin;
+import me.trae.core.world.modules.DisableCreeperExplosion;
 import me.trae.core.world.modules.DisableSaturation;
 import me.trae.core.world.modules.DisableWeather;
 
@@ -18,6 +19,7 @@ public class WorldManager extends me.trae.core.world.WorldManager {
         super.registerModules();
 
         // Core
+        addModule(new DisableCreeperExplosion(this));
         addModule(new DisableSaturation(this));
         addModule(new DisableWeather(this));
 
