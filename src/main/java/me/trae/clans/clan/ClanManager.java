@@ -173,6 +173,8 @@ public class ClanManager extends SpigotManager implements IClanManager {
 
     @Override
     public void disbandClan(final Clan clan) {
+        // TODO: 18/02/2024 - Iterate through claims and get rid of Chunk Outlines
+
         for (final Clan target : this.getClans().values()) {
             if (target.isAllianceByClan(clan)) {
                 target.removeAlliance(target.getAllianceByClan(clan));
@@ -186,6 +188,8 @@ public class ClanManager extends SpigotManager implements IClanManager {
                 final Pillage pillage = target.getPillageByClan(clan);
 
                 target.removePillage(pillage);
+
+                // TODO: 18/02/2024 - Call PillageEndEvent
             }
         }
 
