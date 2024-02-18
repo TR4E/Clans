@@ -2,7 +2,7 @@ package me.trae.clans.gamer;
 
 import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.clans.gamer.interfaces.IGamer;
-import me.trae.framework.shared.gamer.types.LocalGamer;
+import me.trae.framework.shared.gamer.local.types.LocalGamer;
 import me.trae.framework.shared.utility.UtilFormat;
 import me.trae.framework.shared.utility.interfaces.property.PropertyContainer;
 

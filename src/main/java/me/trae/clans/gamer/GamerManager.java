@@ -1,7 +1,7 @@
 package me.trae.clans.gamer;
 
 import me.trae.core.framework.SpigotPlugin;
-import me.trae.core.gamer.LocalGamerManager;
+import me.trae.core.gamer.local.LocalGamerManager;
 
 import java.util.UUID;
 
