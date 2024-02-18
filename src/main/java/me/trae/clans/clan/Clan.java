@@ -18,6 +18,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Clan implements IClan, PropertyContainer<ClanProperty> {
 
@@ -49,6 +50,13 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
 
     public Clan(final EnumData<ClanProperty> data) {
         this(data.get(String.class, "Key"));
+
+        data.getList(String.class, ClanProperty.TERRITORY).forEach(string -> this.addTerritory(UtilChunk.fileToChunk(string)));
+
+        data.getList(String.class, ClanProperty.MEMBERS).forEach(string -> this.addMember(new Member(string.split(":"))));
+        data.getList(String.class, ClanProperty.ALLIANCES).forEach(string -> this.addAlliance(new Alliance(string.split(":"))));
+        data.getList(String.class, ClanProperty.ENEMIES).forEach(string -> this.addEnemy(new Enemy(string.split(":"))));
+        data.getList(String.class, ClanProperty.PILLAGES).forEach(string -> this.addPillage(new Pillage(string.split(":"))));
 
         this.created = data.get(Long.class, ClanProperty.CREATED);
         this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
@@ -261,10 +269,13 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
             case TERRITORY:
                 return String.join(",", this.getTerritory());
             case MEMBERS:
+                return this.getMembers().values().stream().map(Member::toString).collect(Collectors.toList());
             case ALLIANCES:
+                return this.getAlliances().values().stream().map(Alliance::toString).collect(Collectors.toList());
             case ENEMIES:
+                return this.getEnemies().values().stream().map(Enemy::toString).collect(Collectors.toList());
             case PILLAGES:
-                return null;
+                return this.getPillages().values().stream().map(Pillage::toString).collect(Collectors.toList());
             case CREATED:
                 return this.getCreated();
             case FOUNDER:
