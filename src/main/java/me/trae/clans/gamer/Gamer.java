@@ -16,6 +16,8 @@ public class Gamer extends LocalGamer implements IGamer, PropertyContainer<Gamer
 
     public Gamer(final UUID uuid) {
         super(uuid);
+
+        this.coins = 0;
     }
 
     @Override

@@ -5,6 +5,7 @@ import me.trae.champions.build.BuildManager;
 import me.trae.champions.role.RoleManager;
 import me.trae.champions.skill.SkillManager;
 import me.trae.clans.clan.ClanManager;
+import me.trae.clans.economy.EconomyManager;
 import me.trae.clans.effect.EffectManager;
 import me.trae.clans.gamer.GamerManager;
 import me.trae.clans.recipe.RecipeManager;
@@ -66,6 +67,7 @@ public class Clans extends SpigotPlugin {
 
         // Clans
         addManager(new ClanManager(this));
+        addManager(new EconomyManager(this));
         addManager(new EffectManager(this));
         addManager(new GamerManager(this));
         addManager(new RecipeManager(this));
