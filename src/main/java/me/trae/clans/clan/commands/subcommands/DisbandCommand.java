@@ -60,6 +60,11 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
     }
 
     @Override
+    public Class<ClanDisbandEvent> getClassOfEvent() {
+        return ClanDisbandEvent.class;
+    }
+
+    @Override
     public void onEvent(final ClanDisbandEvent event) {
         if (event.isCancelled()) {
             return;

@@ -101,6 +101,11 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
     }
 
     @Override
+    public Class<ClanCreateEvent> getClassOfEvent() {
+        return ClanCreateEvent.class;
+    }
+
+    @Override
     public void onEvent(final ClanCreateEvent event) {
         if (event.isCancelled()) {
             return;
