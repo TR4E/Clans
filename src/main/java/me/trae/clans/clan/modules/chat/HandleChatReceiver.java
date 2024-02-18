@@ -1,4 +1,4 @@
-package me.trae.clans.clan.modules;
+package me.trae.clans.clan.modules.chat;
 
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
@@ -17,6 +17,10 @@ public class HandleChatReceiver extends SpigotListener<ClanManager> {
     @EventHandler
     public void onChatReceive(final ChatReceiveEvent event) {
         if (event.isCancelled()) {
+            return;
+        }
+
+        if (event.hasFormat()) {
             return;
         }
 

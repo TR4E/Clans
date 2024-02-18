@@ -53,6 +53,16 @@ public class Clan implements IClan {
     }
 
     @Override
+    public boolean isAdmin() {
+        return this instanceof AdminClan;
+    }
+
+    @Override
+    public String getType() {
+        return "Clan";
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }

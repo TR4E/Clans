@@ -15,6 +15,10 @@ import java.util.UUID;
 
 public interface IClan {
 
+    boolean isAdmin();
+
+    String getType();
+
     String getName();
 
     List<String> getTerritory();

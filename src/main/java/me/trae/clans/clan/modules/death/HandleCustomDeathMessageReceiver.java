@@ -1,4 +1,4 @@
-package me.trae.clans.clan.modules;
+package me.trae.clans.clan.modules.death;
 
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;

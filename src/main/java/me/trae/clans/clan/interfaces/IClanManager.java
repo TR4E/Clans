@@ -40,4 +40,12 @@ public interface IClanManager {
     ClanRelation getClanRelationByClan(final Clan clan, final Clan target);
 
     ClanRelation getClanRelationByPlayer(final Player player, final Player target);
+
+    String getClanName(final Clan clan, final ClanRelation clanRelation);
+
+    String getClanFullName(final Clan clan, final ClanRelation clanRelation);
+
+    String getClanShortName(final Clan clan, final ClanRelation clanRelation);
+
+    void disbandClan(final Clan clan);
 }
