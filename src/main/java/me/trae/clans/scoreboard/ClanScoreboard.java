@@ -3,6 +3,7 @@ package me.trae.clans.scoreboard;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanRelation;
+import me.trae.clans.gamer.GamerManager;
 import me.trae.core.client.Client;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.scoreboard.MainScoreboard;
@@ -28,7 +29,7 @@ public class ClanScoreboard extends MainScoreboard {
         this.addCustomLine(ChatColor.YELLOW, "Territory", ChatColor.GRAY + "Wilderness");
         this.addBlankLine();
 
-        this.addCustomLine(ChatColor.YELLOW, "Coins", ChatColor.GOLD + "$1,000,000");
+        this.addCustomLine(ChatColor.YELLOW, "Coins", ChatColor.GOLD + this.getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(player).getCoinsString());
         this.addBlankLine();
 
         this.addCustomLine(ChatColor.AQUA, "World Event", "Fishing Frenzy");
