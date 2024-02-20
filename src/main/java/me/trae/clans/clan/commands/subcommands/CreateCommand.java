@@ -115,6 +115,7 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
         final Player player = event.getPlayer();
 
         this.getModule().getManager().addClan(clan);
+        this.getModule().getManager().getRepository().saveData(clan);
 
         for (final Player target : UtilServer.getOnlinePlayers()) {
             final ClanRelation clanRelation = this.getModule().getManager().getClanRelationByClan(this.getModule().getManager().getClanByPlayer(target), clan);

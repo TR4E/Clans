@@ -1,9 +1,11 @@
 package me.trae.clans.world.modules;
 
 import me.trae.clans.world.WorldManager;
+import me.trae.core.damage.events.CustomDamageEvent;
 import me.trae.core.framework.types.SpigotListener;
 import me.trae.core.item.events.ItemUpdateEvent;
 import me.trae.core.recharge.RechargeManager;
+import me.trae.core.utility.UtilBlock;
 import me.trae.core.utility.UtilMath;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -12,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
@@ -54,6 +57,27 @@ public class SpringBlock extends SpigotListener<WorldManager> {
         }
 
         player.setVelocity(new Vector(0.0D, 1.8D, 0.0D));
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onCustomDamage(final CustomDamageEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
+        if (event.getCause() != EntityDamageEvent.DamageCause.FALL) {
+            return;
+        }
+
+        if (!(event.getDamagee() instanceof Player)) {
+            return;
+        }
+
+        if (UtilBlock.getBlockUnder(event.getDamagee().getLocation()).getType() != Material.SPONGE) {
+            return;
+        }
+
+        event.setCancelled(String.format("%s - %s", this.getName(), "No Fall"));
     }
 
     @EventHandler

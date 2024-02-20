@@ -9,6 +9,7 @@ import me.trae.clans.clan.modules.death.HandleCustomDeathMessageReceiver;
 import me.trae.clans.clan.modules.scoreboard.HandleScoreboardUpdate;
 import me.trae.core.framework.SpigotManager;
 import me.trae.core.framework.SpigotPlugin;
+import me.trae.framework.shared.database.repository.interfaces.RepositoryContainer;
 import me.trae.framework.shared.utility.enums.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ClanManager extends SpigotManager implements IClanManager {
+public class ClanManager extends SpigotManager implements IClanManager, RepositoryContainer<ClanRepository> {
 
     private final Map<String, Clan> CLANS = new HashMap<>();
 
@@ -39,6 +40,11 @@ public class ClanManager extends SpigotManager implements IClanManager {
 
         // Scoreboard Modules
         addModule(new HandleScoreboardUpdate(this));
+    }
+
+    @Override
+    public Class<ClanRepository> getClassOfRepository() {
+        return ClanRepository.class;
     }
 
     @Override
@@ -194,5 +200,6 @@ public class ClanManager extends SpigotManager implements IClanManager {
         }
 
         this.removeClan(clan);
+        this.getRepository().deleteData(clan);
     }
 }

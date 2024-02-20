@@ -3,9 +3,11 @@ package me.trae.clans.economy.commands;
 import me.trae.clans.economy.EconomyManager;
 import me.trae.clans.economy.events.EconomyGiveEvent;
 import me.trae.clans.economy.events.EconomySendEvent;
+import me.trae.clans.economy.events.EconomySetEvent;
 import me.trae.clans.economy.events.EconomyTakeEvent;
 import me.trae.clans.gamer.Gamer;
 import me.trae.clans.gamer.GamerManager;
+import me.trae.clans.gamer.enums.GamerProperty;
 import me.trae.core.client.Client;
 import me.trae.core.command.subcommand.types.PlayerSubCommand;
 import me.trae.core.command.subcommand.types.SubCommand;
@@ -30,8 +32,9 @@ public class EconomyCommand extends Command<EconomyManager> {
 
     @Override
     public void registerSubModules() {
-        addSubModule(new CheckCommand(this));
         addSubModule(new SendCommand(this));
+        addSubModule(new CheckCommand(this));
+        addSubModule(new SetCommand(this));
         addSubModule(new GiveCommand(this));
         addSubModule(new TakeCommand(this));
     }
@@ -56,7 +59,7 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            UtilMessage.simpleMessage(player, "Economy", "You have <gold><var></gold>.", Collections.singletonList(gamer.getCoinsString()));
+            UtilMessage.simpleMessage(player, "Economy", "You have <gold><var> Coins</gold>.", Collections.singletonList(gamer.getCoinsString()));
             return;
         }
 
@@ -96,7 +99,7 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            UtilMessage.simpleMessage(sender, "Economy", "<yellow><var></yellow> has <gold><var></gold>.", Arrays.asList(target.getName(), targetGamer.getCoinsString()));
+            UtilMessage.simpleMessage(sender, "Economy", "<yellow><var></yellow> has <gold><var> Coins</gold>.", Arrays.asList(target.getName(), targetGamer.getCoinsString()));
         }
     }
 
@@ -104,6 +107,11 @@ public class EconomyCommand extends Command<EconomyManager> {
 
         public SendCommand(final EconomyCommand economyCommand) {
             super(economyCommand, "send");
+        }
+
+        @Override
+        public String getShortcut() {
+            return "pay";
         }
 
         @Override
@@ -128,6 +136,11 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
+            if (target == player) {
+                UtilMessage.message(player, "Economy", "You cannot send yourself coins.");
+                return;
+            }
+
             if (args.length == 1) {
                 UtilMessage.message(player, "Economy", "You did not input an Amount to Send.");
                 return;
@@ -138,7 +151,9 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            final Gamer playerGamer = this.getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(player);
+            final GamerManager gamerManager = this.getInstance().getManagerByClass(GamerManager.class);
+
+            final Gamer playerGamer = gamerManager.getGamerByPlayer(player);
             if (playerGamer == null) {
                 return;
             }
@@ -156,10 +171,69 @@ public class EconomyCommand extends Command<EconomyManager> {
             playerGamer.setCoins(playerGamer.getCoins() - amount);
             targetGamer.setCoins(targetGamer.getCoins() + amount);
 
+            gamerManager.getRepository().updateData(playerGamer, GamerProperty.COINS);
+            gamerManager.getRepository().updateData(targetGamer, GamerProperty.COINS);
+
             UtilServer.callEvent(new EconomySendEvent(player, target, amount));
 
-            UtilMessage.simpleMessage(player, "Economy", "You have sent <gold><var></gold> to <yellow><var></yellow>.", Arrays.asList(UtilFormat.toDollar(amount), target.getName()));
-            UtilMessage.simpleMessage(target, "Economy", "<yellow><var></yellow> has sent you <gold><var></gold>.", Arrays.asList(player.getName(), UtilFormat.toDollar(amount)));
+            UtilMessage.simpleMessage(player, "Economy", "You have sent <gold><var> Coins</gold> to <yellow><var></yellow>.", Arrays.asList(UtilFormat.toDollar(amount), target.getName()));
+            UtilMessage.simpleMessage(target, "Economy", "<yellow><var></yellow> has sent you <gold><var> Coins</gold>.", Arrays.asList(player.getName(), UtilFormat.toDollar(amount)));
+        }
+    }
+
+    private static class SetCommand extends SubCommand<EconomyCommand> {
+
+        public SetCommand(final EconomyCommand economyCommand) {
+            super(economyCommand, "set", Rank.ADMIN);
+        }
+
+        @Override
+        public String getUsage() {
+            return super.getUsage() + " <player> <amount>";
+        }
+
+        @Override
+        public String getDescription() {
+            return "Set Coins for a Player";
+        }
+
+        @Override
+        public void execute(final CommandSender sender, final String[] args) {
+            if (args.length == 0) {
+                UtilMessage.message(sender, "Economy", "You did not input a Player to Set.");
+                return;
+            }
+
+            final Player target = UtilPlayer.searchPlayer(sender, args[0], true);
+            if (target == null) {
+                return;
+            }
+
+            if (args.length == 1) {
+                UtilMessage.message(sender, "Economy", "You did not input an Amount to Set.");
+                return;
+            }
+
+            final int amount = this.getModule().getManager().getAmount(sender, args[1]);
+            if (amount == 0) {
+                return;
+            }
+
+            final GamerManager gamerManager = this.getInstance().getManagerByClass(GamerManager.class);
+
+            final Gamer targetGamer = gamerManager.getGamerByPlayer(target);
+            if (targetGamer == null) {
+                return;
+            }
+
+            targetGamer.setCoins(amount);
+
+            gamerManager.getRepository().updateData(targetGamer, GamerProperty.COINS);
+
+            UtilServer.callEvent(new EconomySetEvent(sender, target, amount));
+
+            UtilMessage.simpleMessage(sender, "Economy", "You have updated <gold><var> Coins</gold> for <yellow><var></yellow>.", Arrays.asList(UtilFormat.toDollar(amount), target.getName()));
+            UtilMessage.simpleMessage(target, "Economy", "<yellow><var></yellow> has updated you with <gold><var> Coins</gold>.", Arrays.asList(sender.getName(), UtilFormat.toDollar(amount)));
         }
     }
 
@@ -201,17 +275,21 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            final Gamer targetGamer = this.getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(target);
+            final GamerManager gamerManager = this.getInstance().getManagerByClass(GamerManager.class);
+
+            final Gamer targetGamer = gamerManager.getGamerByPlayer(target);
             if (targetGamer == null) {
                 return;
             }
 
             targetGamer.setCoins(targetGamer.getCoins() + amount);
 
+            gamerManager.getRepository().updateData(targetGamer, GamerProperty.COINS);
+
             UtilServer.callEvent(new EconomyGiveEvent(sender, target, amount));
 
-            UtilMessage.simpleMessage(sender, "Economy", "You have given <gold><var></gold> to <yellow><var></yellow>.", Arrays.asList(UtilFormat.toDollar(amount), target.getName()));
-            UtilMessage.simpleMessage(target, "Economy", "<yellow><var></yellow> has given you <gold><var></gold>.", Arrays.asList(sender.getName(), UtilFormat.toDollar(amount)));
+            UtilMessage.simpleMessage(sender, "Economy", "You have given <gold><var> Coins</gold> to <yellow><var></yellow>.", Arrays.asList(UtilFormat.toDollar(amount), target.getName()));
+            UtilMessage.simpleMessage(target, "Economy", "<yellow><var></yellow> has given you <gold><var> Coins</gold>.", Arrays.asList(sender.getName(), UtilFormat.toDollar(amount)));
         }
     }
 
@@ -253,17 +331,21 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            final Gamer targetGamer = this.getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(target);
+            final GamerManager gamerManager = this.getInstance().getManagerByClass(GamerManager.class);
+
+            final Gamer targetGamer = gamerManager.getGamerByPlayer(target);
             if (targetGamer == null) {
                 return;
             }
 
             targetGamer.setCoins(targetGamer.getCoins() - amount);
 
+            gamerManager.getRepository().updateData(targetGamer, GamerProperty.COINS);
+
             UtilServer.callEvent(new EconomyTakeEvent(sender, target, amount));
 
-            UtilMessage.simpleMessage(sender, "Economy", "You have taken <gold><var></gold> from <yellow><var></yellow>.", Arrays.asList(UtilFormat.toDollar(amount), target.getName()));
-            UtilMessage.simpleMessage(target, "Economy", "<yellow><var></yellow> has taken <gold><var></gold> from you.", Arrays.asList(sender.getName(), UtilFormat.toDollar(amount)));
+            UtilMessage.simpleMessage(sender, "Economy", "You have taken <gold><var> Coins</gold> from <yellow><var></yellow>.", Arrays.asList(UtilFormat.toDollar(amount), target.getName()));
+            UtilMessage.simpleMessage(target, "Economy", "<yellow><var></yellow> has taken <gold><var> Coins</gold> from you.", Arrays.asList(sender.getName(), UtilFormat.toDollar(amount)));
         }
     }
 }

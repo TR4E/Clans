@@ -29,7 +29,7 @@ public class GamerManager extends LocalGamerManager<Gamer, GamerProperty, GamerR
     }
 
     @Override
-    public Gamer createGamerByData(EnumData<GamerProperty> data) {
+    public Gamer createGamerByData(final EnumData<GamerProperty> data) {
         return new Gamer(data);
     }
 }

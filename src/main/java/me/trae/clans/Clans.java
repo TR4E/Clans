@@ -8,6 +8,7 @@ import me.trae.clans.clan.ClanManager;
 import me.trae.clans.economy.EconomyManager;
 import me.trae.clans.effect.EffectManager;
 import me.trae.clans.gamer.GamerManager;
+import me.trae.clans.perk.PerkManager;
 import me.trae.clans.recipe.RecipeManager;
 import me.trae.clans.scoreboard.ClanScoreboard;
 import me.trae.clans.weapon.WeaponManager;
@@ -20,6 +21,8 @@ import me.trae.core.countdown.CountdownManager;
 import me.trae.core.damage.DamageManager;
 import me.trae.core.database.DatabaseManager;
 import me.trae.core.death.DeathManager;
+import me.trae.core.donation.global.GlobalDonationManager;
+import me.trae.core.donation.local.LocalDonationManager;
 import me.trae.core.energy.EnergyManager;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.gamer.global.GlobalGamerManager;
@@ -44,9 +47,10 @@ public class Clans extends SpigotPlugin {
         addManager(new CommandManager(this));
         addManager(new ConfigManager(this));
         addManager(new CountdownManager(this));
-        addManager(new DamageManager(this));
         addManager(new DatabaseManager(this));
         addManager(new DeathManager(this));
+        addManager(new GlobalDonationManager(this));
+        addManager(new LocalDonationManager(this));
         addManager(new EnergyManager(this));
         addManager(new GlobalGamerManager(this));
         addManager(new ItemManager(this, ChatColor.YELLOW));
@@ -67,9 +71,11 @@ public class Clans extends SpigotPlugin {
 
         // Clans
         addManager(new ClanManager(this));
+        addManager(new DamageManager(this));
         addManager(new EconomyManager(this));
         addManager(new EffectManager(this));
         addManager(new GamerManager(this));
+        addManager(new PerkManager(this));
         addManager(new RecipeManager(this));
         addManager(new WeaponManager(this));
         addManager(new WorldManager(this));
