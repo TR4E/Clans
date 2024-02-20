@@ -5,12 +5,13 @@ import me.trae.clans.gamer.interfaces.IGamer;
 import me.trae.framework.shared.gamer.local.types.LocalGamer;
 import me.trae.framework.shared.utility.UtilFormat;
 import me.trae.framework.shared.utility.interfaces.property.PropertyContainer;
+import me.trae.framework.shared.utility.objects.EnumData;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class Gamer extends LocalGamer implements IGamer, PropertyContainer<GamerProperty> {
+public class Gamer extends LocalGamer<GamerProperty> implements IGamer, PropertyContainer<GamerProperty> {
 
     private int coins;
 
@@ -18,6 +19,12 @@ public class Gamer extends LocalGamer implements IGamer, PropertyContainer<Gamer
         super(uuid);
 
         this.coins = 0;
+    }
+
+    public Gamer(final EnumData<GamerProperty> data) {
+        super(data);
+
+        this.coins = data.get(Integer.class, GamerProperty.COINS);
     }
 
     @Override
