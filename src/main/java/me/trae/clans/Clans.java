@@ -15,6 +15,7 @@ import me.trae.clans.recipe.RecipeManager;
 import me.trae.clans.scoreboard.ClanScoreboard;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.world.WorldManager;
+import me.trae.clans.worldevent.WorldEventManager;
 import me.trae.core.chat.ChatManager;
 import me.trae.core.client.ClientManager;
 import me.trae.core.command.CommandManager;
@@ -83,5 +84,6 @@ public class Clans extends SpigotPlugin {
         addManager(new RecipeManager(this));
         addManager(new WeaponManager(this));
         addManager(new WorldManager(this));
+        addManager(new WorldEventManager(this));
     }
 }
