@@ -8,6 +8,8 @@ import me.trae.core.utility.UtilMessage;
 import me.trae.framework.shared.client.enums.Rank;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
+
 public class WorldEventCommand extends Command<WorldEventManager> {
 
     public WorldEventCommand(final WorldEventManager manager) {
@@ -64,6 +66,8 @@ public class WorldEventCommand extends Command<WorldEventManager> {
             }
 
             worldEvent.start();
+
+            UtilMessage.simpleMessage(sender, "World Event", "You have started <green><var></green>.", Collections.singletonList(worldEvent.getName()));
         }
     }
 
@@ -87,6 +91,8 @@ public class WorldEventCommand extends Command<WorldEventManager> {
             }
 
             worldEvent.stop();
+
+            UtilMessage.simpleMessage(sender, "World Event", "You have stopped <red><var></red>.", Collections.singletonList(worldEvent.getName()));
         }
     }
 }
