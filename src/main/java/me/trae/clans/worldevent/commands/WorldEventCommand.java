@@ -48,6 +48,11 @@ public class WorldEventCommand extends Command<WorldEventManager> {
 
         @Override
         public void execute(final CommandSender sender, final String[] args) {
+            if (this.getModule().getManager().getActiveWorldEvent() != null) {
+                UtilMessage.message(sender, "World Event", "There is already an event started.");
+                return;
+            }
+
             if (args.length == 0) {
                 UtilMessage.message(sender, "World Event", "You did not input a Event to Start.");
                 return;
