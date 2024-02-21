@@ -33,4 +33,9 @@ public enum MemberRole implements IMemberRole {
 
         return null;
     }
+
+    @Override
+    public String getPrefix() {
+        return this.getName().substring(0, 1);
+    }
 }

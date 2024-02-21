@@ -27,6 +27,7 @@ import me.trae.core.energy.EnergyManager;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.gamer.global.GlobalGamerManager;
 import me.trae.core.item.ItemManager;
+import me.trae.core.lag.LagManager;
 import me.trae.core.menu.MenuManager;
 import me.trae.core.network.NetworkManager;
 import me.trae.core.player.PlayerManager;
@@ -54,6 +55,7 @@ public class Clans extends SpigotPlugin {
         addManager(new EnergyManager(this));
         addManager(new GlobalGamerManager(this));
         addManager(new ItemManager(this, ChatColor.YELLOW));
+        addManager(new LagManager(this));
         addManager(new MenuManager(this));
         addManager(new NetworkManager(this));
         addManager(new PlayerManager(this));

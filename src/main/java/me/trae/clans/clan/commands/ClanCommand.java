@@ -9,7 +9,11 @@ import me.trae.core.client.Client;
 import me.trae.core.command.types.PlayerCommand;
 import me.trae.core.utility.UtilMessage;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.utility.UtilFormat;
 import org.bukkit.entity.Player;
+
+import java.util.Collections;
+import java.util.Map;
 
 public class ClanCommand extends PlayerCommand<ClanManager> {
 
@@ -38,10 +42,32 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
 
         final Clan playerClan = this.getManager().getClanByPlayer(player);
 
+        Clan targetClan = null;
+
         if (args.length == 0) {
             if (playerClan == null) {
                 UtilMessage.message(player, "Clans", "You are not in a Clan.");
+                return;
             }
+
+            targetClan = playerClan;
+        }
+
+        if (args.length == 1) {
+            targetClan = this.getManager().searchClan(player, args[0], true);
+            if (targetClan == null) {
+                return;
+            }
+        }
+
+        if (targetClan == null) {
+            return;
+        }
+
+        UtilMessage.simpleMessage(player, "Clans", "<var> Information:", Collections.singletonList(this.getManager().getClanRelationByClan(playerClan, targetClan).getSuffix() + targetClan.getName()));
+
+        for (final Map.Entry<String, String> entry : this.getManager().getClanInformation(player, client, playerClan, targetClan).entrySet()) {
+            UtilMessage.simpleMessage(player, null, UtilFormat.pairString(entry.getKey(), entry.getValue()));
         }
     }
 

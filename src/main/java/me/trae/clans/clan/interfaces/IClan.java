@@ -1,6 +1,7 @@
 package me.trae.clans.clan.interfaces;
 
 import me.trae.clans.clan.Clan;
+import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.data.Alliance;
 import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
@@ -33,6 +34,10 @@ public interface IClan {
 
     List<Chunk> getTerritoryChunks();
 
+    int getMaxClaims();
+
+    String getTerritoryString();
+
     Map<UUID, Member> getMembers();
 
     void addMember(final Member member);
@@ -47,6 +52,8 @@ public interface IClan {
 
     boolean isMemberByPlayer(final Player player);
 
+    String getMembersString(final ClanManager manager, final Player receiverPlayer);
+
     Map<String, Alliance> getAlliances();
 
     void addAlliance(final Alliance alliance);
@@ -56,6 +63,8 @@ public interface IClan {
     Alliance getAllianceByClan(final Clan clan);
 
     boolean isAllianceByClan(final Clan clan);
+
+    String getAlliancesString(final ClanManager manager, final Clan receiverClan);
 
     Map<String, Enemy> getEnemies();
 
@@ -67,6 +76,8 @@ public interface IClan {
 
     boolean isEnemyByClan(final Clan clan);
 
+    String getEnemiesString(final ClanManager manager, final Clan receiverClan);
+
     Map<String, Pillage> getPillages();
 
     void addPillage(final Pillage pillage);
@@ -77,9 +88,15 @@ public interface IClan {
 
     boolean isPillageByClan(final Clan clan);
 
+    String getPillagesString(final ClanManager manager, final Clan receiverClan);
+
     long getCreated();
 
+    String getCreatedString();
+
     UUID getFounder();
+
+    String getFounderString();
 
     Location getHome();
 

@@ -2,10 +2,12 @@ package me.trae.clans.clan.interfaces;
 
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.enums.ClanRelation;
+import me.trae.core.client.Client;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,6 +39,8 @@ public interface IClanManager {
 
     boolean isClanByLocation(final Location location);
 
+    Clan searchClan(final Player player, final String name, final boolean inform);
+
     ClanRelation getClanRelationByClan(final Clan clan, final Clan target);
 
     ClanRelation getClanRelationByPlayer(final Player player, final Player target);
@@ -48,4 +52,6 @@ public interface IClanManager {
     String getClanShortName(final Clan clan, final ClanRelation clanRelation);
 
     void disbandClan(final Clan clan);
+
+    LinkedHashMap<String, String> getClanInformation(final Player player, final Client client, final Clan playerClan, final Clan targetClan);
 }

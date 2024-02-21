@@ -7,4 +7,6 @@ public interface IMemberRole {
     String getName();
 
     ChatColor getChatColor();
+
+    String getPrefix();
 }

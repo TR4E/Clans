@@ -7,17 +7,21 @@ import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.clans.clan.modules.chat.HandleChatReceiver;
 import me.trae.clans.clan.modules.death.HandleCustomDeathMessageReceiver;
 import me.trae.clans.clan.modules.scoreboard.HandleScoreboardUpdate;
+import me.trae.core.client.Client;
+import me.trae.core.client.ClientManager;
 import me.trae.core.framework.SpigotManager;
 import me.trae.core.framework.SpigotPlugin;
+import me.trae.core.utility.UtilSearch;
 import me.trae.framework.shared.database.repository.interfaces.RepositoryContainer;
 import me.trae.framework.shared.utility.enums.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class ClanManager extends SpigotManager implements IClanManager, RepositoryContainer<ClanRepository> {
 
@@ -129,6 +133,36 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
     }
 
     @Override
+    public Clan searchClan(final Player player, final String name, final boolean inform) {
+        final List<Predicate<Clan>> predicates = Arrays.asList(
+                (clan -> clan.getName().equalsIgnoreCase(name)),
+                (clan -> clan.getName().toLowerCase().contains(name.toLowerCase()))
+        );
+
+        final Function<Clan, String> function = (clan -> this.getClanRelationByClan(this.getClanByPlayer(player), clan).getSuffix() + clan.getName());
+
+        final Consumer<List<Clan>> consumer = (list -> {
+            final Client client = this.getInstance().getManagerByClass(ClientManager.class).searchClient(player, name, false);
+            if (client == null) {
+                return;
+            }
+
+            final Clan clan = this.getClanByUUID(client.getUUID());
+            if (clan == null) {
+                return;
+            }
+
+            if (list.contains(clan)) {
+                return;
+            }
+
+            list.add(clan);
+        });
+
+        return UtilSearch.search(Clan.class, this.getClans().values(), predicates, consumer, function, "Clan Search", player, name, inform);
+    }
+
+    @Override
     public ClanRelation getClanRelationByClan(final Clan clan, final Clan target) {
         if (clan != null && target != null) {
             if (clan == target) {
@@ -201,5 +235,29 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
 
         this.removeClan(clan);
         this.getRepository().deleteData(clan);
+    }
+
+    @Override
+    public LinkedHashMap<String, String> getClanInformation(final Player player, final Client client, final Clan playerClan, final Clan targetClan) {
+        final LinkedHashMap<String, String> map = new LinkedHashMap<>();
+
+        if (client.isAdministrating()) {
+            map.put("Founder", String.format("<yellow>%s", targetClan.getFounderString()));
+        }
+
+        map.put("Age", String.format("<yellow>%s", targetClan.getCreatedString()));
+        map.put("Territory", String.format("<yellow>%s", targetClan.getTerritoryString()));
+
+        if (targetClan.isMemberByPlayer(player) || client.isAdministrating()) {
+            map.put("Home", targetClan.getHomeString());
+        }
+
+        map.put("Allies", targetClan.getAlliancesString(this, playerClan));
+        map.put("Enemies", targetClan.getEnemiesString(this, playerClan));
+        map.put("Pillages", targetClan.getPillagesString(this, playerClan));
+        map.put("Members", targetClan.getMembersString(this, player));
+
+
+        return map;
     }
 }

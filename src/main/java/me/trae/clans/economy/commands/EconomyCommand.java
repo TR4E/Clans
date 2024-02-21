@@ -32,11 +32,11 @@ public class EconomyCommand extends Command<EconomyManager> {
 
     @Override
     public void registerSubModules() {
-        addSubModule(new SendCommand(this));
-        addSubModule(new CheckCommand(this));
         addSubModule(new SetCommand(this));
         addSubModule(new GiveCommand(this));
         addSubModule(new TakeCommand(this));
+        addSubModule(new CheckCommand(this));
+        addSubModule(new SendCommand(this));
     }
 
     @Override

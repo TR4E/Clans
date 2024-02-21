@@ -6,15 +6,19 @@ import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.enums.ClanProperty;
+import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClan;
 import me.trae.core.utility.UtilChunk;
 import me.trae.core.utility.UtilLocation;
 import me.trae.framework.shared.utility.UtilJava;
+import me.trae.framework.shared.utility.UtilTime;
 import me.trae.framework.shared.utility.enums.ChatColor;
 import me.trae.framework.shared.utility.interfaces.property.PropertyContainer;
 import me.trae.framework.shared.utility.objects.EnumData;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -120,6 +124,16 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public int getMaxClaims() {
+        return 3 + this.getMembers().size();
+    }
+
+    @Override
+    public String getTerritoryString() {
+        return String.format("%s/%s", this.getTerritory().size(), this.getMaxClaims());
+    }
+
+    @Override
     public Map<UUID, Member> getMembers() {
         return this.members;
     }
@@ -155,6 +169,29 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public String getMembersString(final ClanManager manager, final Player receiverPlayer) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Member member : this.getMembers().values()) {
+            String name = "null";
+            ChatColor chatColor = ChatColor.RED;
+
+            final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(member.getUUID());
+            if (offlinePlayer != null) {
+                name = offlinePlayer.getName();
+
+                if (offlinePlayer.isOnline() && receiverPlayer.canSee(offlinePlayer.getPlayer())) {
+                    chatColor = ChatColor.GREEN;
+                }
+            }
+
+            list.add(String.format("<yellow>%s</yellow>.%s", member.getRole().getPrefix(), chatColor + name));
+        }
+
+        return String.join("<gray>,", list);
+    }
+
+    @Override
     public Map<String, Alliance> getAlliances() {
         return this.alliances;
     }
@@ -177,6 +214,24 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     @Override
     public boolean isAllianceByClan(final Clan clan) {
         return this.getAlliances().containsKey(clan.getName());
+    }
+
+    @Override
+    public String getAlliancesString(final ClanManager manager, final Clan receiverClan) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Alliance alliance : this.getAlliances().values()) {
+            final Clan allianceClan = manager.getClanByName(alliance.getName());
+            if (allianceClan == null) {
+                continue;
+            }
+
+            final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, allianceClan);
+
+            list.add(clanRelation.getSuffix() + allianceClan.getName());
+        }
+
+        return String.join("<gray>,", list);
     }
 
     @Override
@@ -205,6 +260,24 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public String getEnemiesString(final ClanManager manager, final Clan receiverClan) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Enemy enemy : this.getEnemies().values()) {
+            final Clan enemyClan = manager.getClanByName(enemy.getName());
+            if (enemyClan == null) {
+                continue;
+            }
+
+            final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, enemyClan);
+
+            list.add(clanRelation.getSuffix() + enemyClan.getName());
+        }
+
+        return String.join("<gray>,", list);
+    }
+
+    @Override
     public Map<String, Pillage> getPillages() {
         return this.pillages;
     }
@@ -230,13 +303,41 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public String getPillagesString(final ClanManager manager, final Clan receiverClan) {
+        final List<String> list = new ArrayList<>();
+
+        for (final Pillage pillage : this.getPillages().values()) {
+            final Clan pillageClan = manager.getClanByName(pillage.getName());
+            if (pillageClan == null) {
+                continue;
+            }
+
+            final ClanRelation clanRelation = manager.getClanRelationByClan(receiverClan, pillageClan);
+
+            list.add(clanRelation.getSuffix() + pillageClan.getName());
+        }
+
+        return String.join("<gray>,", list);
+    }
+
+    @Override
     public long getCreated() {
         return this.created;
     }
 
     @Override
+    public String getCreatedString() {
+        return UtilTime.getTime(System.currentTimeMillis() - this.getCreated());
+    }
+
+    @Override
     public UUID getFounder() {
         return this.founder;
+    }
+
+    @Override
+    public String getFounderString() {
+        return Bukkit.getOfflinePlayer(this.getFounder()).getName();
     }
 
     @Override
