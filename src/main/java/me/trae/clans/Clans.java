@@ -10,6 +10,7 @@ import me.trae.clans.economy.EconomyManager;
 import me.trae.clans.effect.EffectManager;
 import me.trae.clans.gamer.GamerManager;
 import me.trae.clans.perk.PerkManager;
+import me.trae.clans.pillage.PillageManager;
 import me.trae.clans.recipe.RecipeManager;
 import me.trae.clans.scoreboard.ClanScoreboard;
 import me.trae.clans.weapon.WeaponManager;
@@ -78,6 +79,7 @@ public class Clans extends SpigotPlugin {
         addManager(new EffectManager(this));
         addManager(new GamerManager(this));
         addManager(new PerkManager(this));
+        addManager(new PillageManager(this));
         addManager(new RecipeManager(this));
         addManager(new WeaponManager(this));
         addManager(new WorldManager(this));
