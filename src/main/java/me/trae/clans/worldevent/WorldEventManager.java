@@ -3,6 +3,8 @@ package me.trae.clans.worldevent;
 import me.trae.clans.worldevent.commands.WorldEventCommand;
 import me.trae.clans.worldevent.interfaces.IWorldEventManager;
 import me.trae.clans.worldevent.modules.HandleWorldEventUpdater;
+import me.trae.clans.worldevent.types.FishingFrenzy;
+import me.trae.clans.worldevent.types.MiningFrenzy;
 import me.trae.core.framework.SpigotManager;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.utility.UtilSearch;
@@ -26,6 +28,10 @@ public class WorldEventManager extends SpigotManager implements IWorldEventManag
 
         // Modules
         addModule(new HandleWorldEventUpdater(this));
+
+        // World Events
+        addModule(new FishingFrenzy(this));
+        addModule(new MiningFrenzy(this));
     }
 
     @Override
