@@ -4,6 +4,8 @@ import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.gamer.GamerManager;
+import me.trae.clans.worldevent.WorldEvent;
+import me.trae.clans.worldevent.WorldEventManager;
 import me.trae.core.client.Client;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.scoreboard.MainScoreboard;
@@ -30,9 +32,12 @@ public class ClanScoreboard extends MainScoreboard {
         this.addBlankLine();
 
         this.addCustomLine(ChatColor.YELLOW, "Coins", ChatColor.GOLD + this.getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(player).getCoinsString());
-        this.addBlankLine();
 
-        this.addCustomLine(ChatColor.AQUA, "World Event", "Fishing Frenzy");
+        final WorldEvent worldEvent = this.getInstance().getManagerByClass(WorldEventManager.class).getActiveWorldEvent();
+        if (worldEvent != null) {
+            this.addBlankLine();
+            this.addCustomLine(ChatColor.AQUA, "World Event", worldEvent.getName());
+        }
     }
 
     @Override

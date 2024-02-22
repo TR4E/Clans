@@ -51,6 +51,8 @@ public class ClanRepository extends Repository<ClanManager> implements UpdateRep
 
                 getManager().addClan(clan);
 
+                patchData(clan, data);
+
                 incrementCount();
             }
         };
