@@ -59,4 +59,9 @@ public class ClanRepository extends Repository<ClanManager> implements UpdateRep
 
         this.addQuery(query);
     }
+
+    @Override
+    public void wipeData() {
+        this.getManager().getClans().clear();
+    }
 }

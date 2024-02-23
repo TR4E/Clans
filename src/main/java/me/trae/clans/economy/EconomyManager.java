@@ -25,16 +25,16 @@ public class EconomyManager extends SpigotManager implements IEconomyManager {
     }
 
     @Override
-    public int getAmount(final CommandSender sender, final String string) {
+    public int getAmount(final CommandSender sender, final String string, final int minimumAmount) {
         final Integer amount = UtilInput.getInput(Integer.class, string);
         if (amount == null) {
             UtilMessage.message(sender, "Economy", "You did not input a valid Amount.");
-            return 0;
+            return -1;
         }
 
-        if (amount <= 0) {
-            UtilMessage.message(sender, "Economy", "The Amount must be greater than Zero.");
-            return 0;
+        if (amount < minimumAmount) {
+            UtilMessage.message(sender, "Economy", String.format("The Amount cannot be less than %s.", minimumAmount));
+            return -1;
         }
 
         return amount;

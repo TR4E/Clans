@@ -146,8 +146,8 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            final int amount = this.getModule().getManager().getAmount(player, args[1]);
-            if (amount == 0) {
+            final int amount = this.getModule().getManager().getAmount(player, args[1], 1);
+            if (amount == -1) {
                 return;
             }
 
@@ -214,8 +214,8 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            final int amount = this.getModule().getManager().getAmount(sender, args[1]);
-            if (amount == 0) {
+            final int amount = this.getModule().getManager().getAmount(sender, args[1], 0);
+            if (amount == -1) {
                 return;
             }
 
@@ -270,8 +270,8 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            final int amount = this.getModule().getManager().getAmount(sender, args[1]);
-            if (amount == 0) {
+            final int amount = this.getModule().getManager().getAmount(sender, args[1], 1);
+            if (amount == -1) {
                 return;
             }
 
@@ -326,8 +326,8 @@ public class EconomyCommand extends Command<EconomyManager> {
                 return;
             }
 
-            final int amount = this.getModule().getManager().getAmount(sender, args[1]);
-            if (amount == 0) {
+            final int amount = this.getModule().getManager().getAmount(sender, args[1], 1);
+            if (amount == -1) {
                 return;
             }
 

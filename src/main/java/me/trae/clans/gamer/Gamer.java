@@ -17,8 +17,6 @@ public class Gamer extends LocalGamer<GamerProperty> implements IGamer, Property
 
     public Gamer(final UUID uuid) {
         super(uuid);
-
-        this.coins = 0;
     }
 
     public Gamer(final EnumData<GamerProperty> data) {
