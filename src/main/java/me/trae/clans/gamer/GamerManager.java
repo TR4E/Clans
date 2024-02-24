@@ -15,7 +15,6 @@ public class GamerManager extends LocalGamerManager<Gamer, GamerProperty, GamerR
 
     @Override
     public void registerModules() {
-        super.registerModules();
     }
 
     @Override

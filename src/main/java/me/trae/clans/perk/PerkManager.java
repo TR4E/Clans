@@ -12,8 +12,6 @@ public class PerkManager extends me.trae.core.perk.PerkManager {
 
     @Override
     public void registerModules() {
-        super.registerModules();
-
         addModule(new AgilityHelmet(this));
         addModule(new RaveArmour(this));
     }

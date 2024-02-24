@@ -11,8 +11,6 @@ public class DamageManager extends me.trae.core.damage.DamageManager {
 
     @Override
     public void registerModules() {
-        super.registerModules();
-
         addModule(new HandleDisplayDamageOnEXPLevel(this));
     }
 }

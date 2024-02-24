@@ -8,7 +8,6 @@ import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.world.modules.DisableCreeperExplosion;
 import me.trae.core.world.modules.DisableSaturation;
 import me.trae.core.world.modules.DisableWeather;
-import redis.clients.jedis.search.aggr.Limit;
 
 public class WorldManager extends me.trae.core.world.WorldManager {
 
@@ -18,8 +17,6 @@ public class WorldManager extends me.trae.core.world.WorldManager {
 
     @Override
     public void registerModules() {
-        super.registerModules();
-
         // Core
         addModule(new DisableCreeperExplosion(this));
         addModule(new DisableSaturation(this));

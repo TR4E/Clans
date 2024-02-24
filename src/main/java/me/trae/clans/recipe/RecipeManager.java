@@ -11,8 +11,6 @@ public class RecipeManager extends me.trae.core.recipe.RecipeManager {
 
     @Override
     public void registerModules() {
-        super.registerModules();
-
         addModule(new DisableAnvilRecipe(this));
         addModule(new DisableBrewingStandRecipe(this));
         addModule(new DisableCompassRecipe(this));
