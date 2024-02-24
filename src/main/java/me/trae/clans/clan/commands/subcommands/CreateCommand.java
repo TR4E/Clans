@@ -11,6 +11,7 @@ import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.interfaces.EventContainer;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import me.trae.framework.shared.utility.UtilFormat;
 import org.bukkit.entity.Player;
 
@@ -37,7 +38,7 @@ public class CreateCommand extends ClanSubCommand implements EventContainer<Clan
     }
 
     @Override
-    public void execute(final Player player, final Client client, Clan clan, final String[] args) {
+    public void execute(final Player player, final Client client, final GlobalGamer globalGamer, Clan clan, final String[] args) {
         if (clan != null) {
             UtilMessage.message(player, "Clans", "You are already in a Clan!");
             return;

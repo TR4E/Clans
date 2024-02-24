@@ -3,6 +3,7 @@ package me.trae.clans.clan.commands.subcommands.abstracts.interfaces;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.core.client.Client;
+import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import org.bukkit.entity.Player;
 
 public interface IClanSubCommand {
@@ -15,5 +16,5 @@ public interface IClanSubCommand {
         return this.hasRequiredMemberRole(player, client, clan, this.getRequiredMemberRole(), inform);
     }
 
-    void execute(final Player player, final Client client, final Clan clan, final String[] args);
+    void execute(final Player player, final Client client, final GlobalGamer globalGamer, final Clan clan, final String[] args);
 }

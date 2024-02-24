@@ -8,6 +8,7 @@ import me.trae.core.item.events.ItemUpdateEvent;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilPlayer;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import me.trae.framework.shared.updater.annotations.Update;
 import me.trae.framework.shared.updater.interfaces.Updater;
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public class TrackCommand extends PlayerCommand<WorldManager> implements Updater
     }
 
     @Override
-    public void execute(final Player player, final Client client, final String[] args) {
+    public void execute(final Player player, final Client client, final GlobalGamer globalGamer, final String[] args) {
         if (args.length == 0) {
             UtilMessage.message(player, "Tracker", "You did not input a Player to Track.");
             return;

@@ -8,6 +8,7 @@ import me.trae.core.client.Client;
 import me.trae.core.command.subcommand.types.PlayerSubCommand;
 import me.trae.core.utility.UtilMessage;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import me.trae.framework.shared.utility.enums.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -59,7 +60,7 @@ public abstract class ClanSubCommand extends PlayerSubCommand<ClanCommand> imple
     }
 
     @Override
-    public void execute(final Player player, final Client client, final String[] args) {
-        this.execute(player, client, this.getModule().getManager().getClanByPlayer(player), args);
+    public void execute(final Player player, final Client client, final GlobalGamer globalGamer, final String[] args) {
+        this.execute(player, client, globalGamer, this.getModule().getManager().getClanByPlayer(player), args);
     }
 }

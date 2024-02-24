@@ -16,6 +16,7 @@ import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilPlayer;
 import me.trae.core.utility.UtilServer;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import me.trae.framework.shared.utility.UtilFormat;
 import me.trae.framework.shared.utility.UtilJava;
 import org.bukkit.command.CommandSender;
@@ -125,7 +126,7 @@ public class EconomyCommand extends Command<EconomyManager> {
         }
 
         @Override
-        public void execute(final Player player, final Client client, final String[] args) {
+        public void execute(final Player player, final Client client, final GlobalGamer globalGamer, final String[] args) {
             if (args.length == 0) {
                 UtilMessage.message(player, "Economy", "You did not input a Player to Send.");
                 return;

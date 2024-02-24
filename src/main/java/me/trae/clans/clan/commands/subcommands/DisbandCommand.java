@@ -10,6 +10,7 @@ import me.trae.core.client.Client;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.core.utility.interfaces.EventContainer;
+import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
     }
 
     @Override
-    public void execute(final Player player, final Client client, final Clan clan, final String[] args) {
+    public void execute(final Player player, final Client client, final GlobalGamer globalGamer, final Clan clan, final String[] args) {
         if (clan == null) {
             UtilMessage.message(player, "Clans", "You are not in a Clan.");
             return;
