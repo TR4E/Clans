@@ -30,6 +30,7 @@ import me.trae.core.energy.EnergyManager;
 import me.trae.core.framework.SpigotPlugin;
 import me.trae.core.gamer.global.GlobalGamerManager;
 import me.trae.core.item.ItemManager;
+import me.trae.core.lunar.LunarManager;
 import me.trae.core.menu.MenuManager;
 import me.trae.core.network.NetworkManager;
 import me.trae.core.player.PlayerManager;
@@ -80,6 +81,7 @@ public class Clans extends SpigotPlugin {
                 addManager(EnergyManager.class);
                 addManager(GlobalGamerManager.class);
                 addManager(ItemManager.class);
+                addManager(LunarManager.class);
                 addManager(MenuManager.class);
                 addManager(NetworkManager.class);
                 addManager(me.trae.core.perk.PerkManager.class);
