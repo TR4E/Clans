@@ -13,6 +13,7 @@ import me.trae.clans.gamer.GamerManager;
 import me.trae.clans.perk.PerkManager;
 import me.trae.clans.pillage.PillageManager;
 import me.trae.clans.recipe.RecipeManager;
+import me.trae.clans.scoreboard.ScoreboardManager;
 import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.world.WorldManager;
 import me.trae.clans.worldevent.WorldEventManager;
@@ -36,8 +37,8 @@ import me.trae.core.network.NetworkManager;
 import me.trae.core.player.PlayerManager;
 import me.trae.core.recharge.RechargeManager;
 import me.trae.core.redis.RedisManager;
-import me.trae.core.scoreboard.ScoreboardManager;
 import me.trae.core.server.ServerManager;
+import me.trae.core.teleport.TeleportManager;
 import me.trae.core.updater.UpdaterManager;
 
 public class Clans extends SpigotPlugin {
@@ -52,6 +53,7 @@ public class Clans extends SpigotPlugin {
         addManager(new PerkManager(this));
         addManager(new PillageManager(this));
         addManager(new RecipeManager(this));
+        addManager(new ScoreboardManager(this));
         addManager(new WeaponManager(this));
         addManager(new WorldManager(this));
         addManager(new WorldEventManager(this));
@@ -88,8 +90,9 @@ public class Clans extends SpigotPlugin {
                 addManager(PlayerManager.class);
                 addManager(RechargeManager.class);
                 addManager(RedisManager.class);
-                addManager(ScoreboardManager.class);
+                addManager(me.trae.core.scoreboard.ScoreboardManager.class);
                 addManager(ServerManager.class);
+                addManager(TeleportManager.class);
                 addManager(UpdaterManager.class);
                 addManager(me.trae.core.weapon.WeaponManager.class);
                 addManager(me.trae.core.world.WorldManager.class);

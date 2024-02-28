@@ -1,6 +1,7 @@
 package me.trae.clans.world;
 
 import me.trae.clans.world.commands.TrackCommand;
+import me.trae.clans.world.modules.FasterNightTimeCycle;
 import me.trae.clans.world.modules.LimitCreatureSpawn;
 import me.trae.clans.world.modules.SpringBlock;
 import me.trae.clans.world.modules.WaterBlock;
@@ -25,6 +26,7 @@ public class WorldManager extends me.trae.core.world.WorldManager {
         // Clans
         addModule(new TrackCommand(this));
 
+        addModule(new FasterNightTimeCycle(this));
         addModule(new LimitCreatureSpawn(this));
         addModule(new SpringBlock(this));
         addModule(new WaterBlock(this));
