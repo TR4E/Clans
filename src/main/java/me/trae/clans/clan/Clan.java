@@ -5,6 +5,7 @@ import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.Pillage;
 import me.trae.clans.clan.data.enums.MemberRole;
+import me.trae.clans.clan.data.enums.RequestType;
 import me.trae.clans.clan.enums.ClanProperty;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClan;
@@ -30,12 +31,14 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
 
     private final List<String> territory = new ArrayList<>();
 
+    private final Map<RequestType, Map<String, Long>> requests = new HashMap<>();
+
     private final Map<UUID, Member> members = new HashMap<>();
     private final Map<String, Alliance> alliances = new HashMap<>();
     private final Map<String, Enemy> enemies = new HashMap<>();
     private final Map<String, Pillage> pillages = new HashMap<>();
 
-    private long created;
+    private long created, lastOnline;
     private UUID founder;
     private Location home;
 
@@ -63,6 +66,7 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
         data.getList(String.class, ClanProperty.PILLAGES).forEach(string -> this.addPillage(new Pillage(string.split(":"))));
 
         this.created = data.get(Long.class, ClanProperty.CREATED);
+        this.lastOnline = data.get(Long.class, ClanProperty.LAST_ONLINE);
         this.founder = UUID.fromString(data.get(String.class, ClanProperty.FOUNDER));
         this.home = UtilLocation.fileToLocation(data.get(String.class, ClanProperty.HOME));
     }
@@ -139,6 +143,45 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public Map<RequestType, Map<String, Long>> getRequests() {
+        return this.requests;
+    }
+
+    @Override
+    public void addRequestByClan(final Clan clan, final RequestType requestType) {
+        this.getRequests().put(requestType, UtilJava.updateMap(this.getRequests().getOrDefault(requestType, new HashMap<>()), map -> {
+            map.put(clan.getName(), System.currentTimeMillis());
+        }));
+    }
+
+    @Override
+    public void addRequestByPlayer(final Player player, final RequestType requestType) {
+        this.getRequests().put(requestType, UtilJava.updateMap(this.getRequests().getOrDefault(requestType, new HashMap<>()), map -> {
+            map.put(player.getUniqueId().toString(), System.currentTimeMillis());
+        }));
+    }
+
+    @Override
+    public void removeRequestByClan(final Clan clan, final RequestType requestType) {
+        this.getRequests().getOrDefault(requestType, new HashMap<>()).remove(clan.getName());
+    }
+
+    @Override
+    public void removeRequestByPlayer(final Player player, final RequestType requestType) {
+        this.getRequests().getOrDefault(requestType, new HashMap<>()).remove(player.getUniqueId().toString());
+    }
+
+    @Override
+    public boolean isRequestByClan(final Clan clan, final RequestType requestType) {
+        return this.getRequests().getOrDefault(requestType, new HashMap<>()).containsKey(clan.getName());
+    }
+
+    @Override
+    public boolean isRequestByPlayer(final Player player, final RequestType requestType) {
+        return this.getRequests().getOrDefault(requestType, new HashMap<>()).containsKey(player.getUniqueId().toString());
+    }
+
+    @Override
     public void addMember(final Member member) {
         this.getMembers().put(member.getUUID(), member);
     }
@@ -166,6 +209,27 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     @Override
     public boolean isMemberByPlayer(final Player player) {
         return this.isMemberByUUID(player.getUniqueId());
+    }
+
+    @Override
+    public Map<Player, Member> getOnlineMembers() {
+        final Map<Player, Member> map = new HashMap<>();
+
+        for (final Member member : this.getMembers().values()) {
+            final Player player = member.getPlayer();
+            if (player == null) {
+                continue;
+            }
+
+            map.put(player, member);
+        }
+
+        return map;
+    }
+
+    @Override
+    public boolean isFull(final ClanManager manager) {
+        return this.getMembers().size() + this.getAlliances().size() >= manager.getPrimitiveCasted(Integer.class, "Max-Squad-Count");
     }
 
     @Override
@@ -303,6 +367,19 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public boolean isBeingPillaged(final ClanManager manager) {
+        for (final Clan clan : manager.getClans().values()) {
+            if (!(clan.isPillageByClan(this))) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public String getPillagesString(final ClanManager manager, final Clan receiverClan) {
         final List<String> list = new ArrayList<>();
 
@@ -323,6 +400,16 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     @Override
     public long getCreated() {
         return this.created;
+    }
+
+    @Override
+    public long getLastOnline() {
+        return this.lastOnline;
+    }
+
+    @Override
+    public void setLastOnline(final long lastOnline) {
+        this.lastOnline = lastOnline;
     }
 
     @Override
@@ -379,6 +466,8 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
                 return this.getPillages().values().stream().map(Pillage::toString).collect(Collectors.toList());
             case CREATED:
                 return this.getCreated();
+            case LAST_ONLINE:
+                return this.getLastOnline();
             case FOUNDER:
                 return this.getFounder().toString();
             case HOME:

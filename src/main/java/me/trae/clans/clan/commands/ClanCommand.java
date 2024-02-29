@@ -2,9 +2,7 @@ package me.trae.clans.clan.commands;
 
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
-import me.trae.clans.clan.commands.subcommands.CreateCommand;
-import me.trae.clans.clan.commands.subcommands.DisbandCommand;
-import me.trae.clans.clan.commands.subcommands.HelpCommand;
+import me.trae.clans.clan.commands.subcommands.*;
 import me.trae.core.client.Client;
 import me.trae.core.command.types.PlayerCommand;
 import me.trae.core.utility.UtilMessage;
@@ -27,6 +25,8 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
         addSubModule(new CreateCommand(this));
         addSubModule(new DisbandCommand(this));
         addSubModule(new HelpCommand(this));
+        addSubModule(new JoinCommand(this));
+        addSubModule(new LeaveCommand(this));
     }
 
     @Override

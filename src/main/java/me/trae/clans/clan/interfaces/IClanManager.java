@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -52,6 +53,12 @@ public interface IClanManager {
     String getClanShortName(final Clan clan, final ClanRelation clanRelation);
 
     void disbandClan(final Clan clan);
+
+    void removeChatType(final UUID uuid);
+
+    void messageClan(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore);
+
+    void messageAllies(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore);
 
     LinkedHashMap<String, String> getClanInformation(final Player player, final Client client, final Clan playerClan, final Clan targetClan);
 }

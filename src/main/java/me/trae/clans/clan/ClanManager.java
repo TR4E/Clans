@@ -1,17 +1,26 @@
 package me.trae.clans.clan;
 
 import me.trae.clans.clan.commands.ClanCommand;
+import me.trae.clans.clan.commands.chat.AllyChatCommand;
+import me.trae.clans.clan.commands.chat.ClanChatCommand;
+import me.trae.clans.clan.data.Alliance;
 import me.trae.clans.clan.data.Pillage;
+import me.trae.clans.clan.enums.ChatType;
 import me.trae.clans.clan.enums.ClanRelation;
 import me.trae.clans.clan.interfaces.IClanManager;
 import me.trae.clans.clan.modules.chat.HandleChatReceiver;
 import me.trae.clans.clan.modules.death.HandleCustomDeathMessageReceiver;
 import me.trae.clans.clan.modules.scoreboard.HandleScoreboardUpdate;
+import me.trae.clans.gamer.Gamer;
+import me.trae.clans.gamer.GamerManager;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
 import me.trae.core.framework.SpigotManager;
 import me.trae.core.framework.SpigotPlugin;
+import me.trae.core.gamer.local.events.ChatTypeUpdateEvent;
+import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilSearch;
+import me.trae.core.utility.UtilServer;
 import me.trae.framework.shared.database.repository.interfaces.RepositoryContainer;
 import me.trae.framework.shared.utility.enums.ChatColor;
 import org.bukkit.Chunk;
@@ -29,12 +38,19 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
 
     public ClanManager(final SpigotPlugin instance) {
         super(instance);
+
+        this.addPrimitive("Max-Squad-Count", 8);
+        this.addPrimitive("Max-Claim-Limit", 8);
     }
 
     @Override
     public void registerModules() {
         // Commands
         addModule(new ClanCommand(this));
+
+        // Chat Commands
+        addModule(new AllyChatCommand(this));
+        addModule(new ClanChatCommand(this));
 
         // Chat Modules
         addModule(new HandleChatReceiver(this));
@@ -235,6 +251,40 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
 
         this.removeClan(clan);
         this.getRepository().deleteData(clan);
+
+        clan.getOnlineMembers().keySet().forEach(player -> this.removeChatType(player.getUniqueId()));
+    }
+
+    @Override
+    public void removeChatType(final UUID uuid) {
+        final Gamer gamer = this.getInstance().getManagerByClass(GamerManager.class).getGamerByUUID(uuid);
+
+        for (final ChatType chatType : ChatType.values()) {
+            if (!(gamer.isChatType(chatType))) {
+                continue;
+            }
+
+            gamer.resetChatType();
+            UtilServer.callEvent(new ChatTypeUpdateEvent(gamer, chatType.name()));
+            break;
+        }
+    }
+
+    @Override
+    public void messageClan(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore) {
+        UtilMessage.simpleMessage(new ArrayList<>(clan.getOnlineMembers().keySet()), prefix, message, variables, null, ignore);
+    }
+
+    @Override
+    public void messageAllies(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore) {
+        for (final Alliance alliance : clan.getAlliances().values()) {
+            final Clan allianceClan = this.getClanByName(alliance.getName());
+            if (allianceClan == null) {
+                continue;
+            }
+
+            this.messageClan(allianceClan, prefix, message, variables, ignore);
+        }
     }
 
     @Override

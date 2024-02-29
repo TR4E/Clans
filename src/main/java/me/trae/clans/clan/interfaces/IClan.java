@@ -6,6 +6,7 @@ import me.trae.clans.clan.data.Alliance;
 import me.trae.clans.clan.data.Enemy;
 import me.trae.clans.clan.data.Member;
 import me.trae.clans.clan.data.Pillage;
+import me.trae.clans.clan.data.enums.RequestType;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -40,6 +41,20 @@ public interface IClan {
 
     Map<UUID, Member> getMembers();
 
+    Map<RequestType, Map<String, Long>> getRequests();
+
+    void addRequestByClan(final Clan clan, final RequestType requestType);
+
+    void addRequestByPlayer(final Player player, final RequestType requestType);
+
+    void removeRequestByClan(final Clan clan, final RequestType requestType);
+
+    void removeRequestByPlayer(final Player player, final RequestType requestType);
+
+    boolean isRequestByClan(final Clan clan, final RequestType requestType);
+
+    boolean isRequestByPlayer(final Player player, final RequestType requestType);
+
     void addMember(final Member member);
 
     void removeMember(final Member member);
@@ -51,6 +66,10 @@ public interface IClan {
     boolean isMemberByUUID(final UUID uuid);
 
     boolean isMemberByPlayer(final Player player);
+
+    Map<Player, Member> getOnlineMembers();
+
+    boolean isFull(final ClanManager manager);
 
     String getMembersString(final ClanManager manager, final Player receiverPlayer);
 
@@ -88,9 +107,15 @@ public interface IClan {
 
     boolean isPillageByClan(final Clan clan);
 
+    boolean isBeingPillaged(final ClanManager manager);
+
     String getPillagesString(final ClanManager manager, final Clan receiverClan);
 
     long getCreated();
+
+    long getLastOnline();
+
+    void setLastOnline(final long lastOnline);
 
     String getCreatedString();
 

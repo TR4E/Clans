@@ -55,6 +55,17 @@ public class DisbandCommand extends ClanSubCommand implements EventContainer<Cla
                 UtilMessage.message(player, "Clans", "You must be Administrating to disband Admin Clans!");
                 return false;
             }
+
+            final Clan territoryClan = this.getModule().getManager().getClanByLocation(player.getLocation());
+            if (territoryClan != null && clan.isEnemyByClan(territoryClan)) {
+                UtilMessage.message(player, "Clans", "You cannot disband the clan while in enemy territory!");
+                return false;
+            }
+
+            if (clan.isBeingPillaged(this.getModule().getManager())) {
+                UtilMessage.message(player, "Clans", "You cannot disand the clan while being conquered by another clan!");
+                return false;
+            }
         }
 
         return true;
