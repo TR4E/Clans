@@ -42,6 +42,8 @@ public interface IClanManager {
 
     Clan searchClan(final Player player, final String name, final boolean inform);
 
+    Client searchMember(final Clan clan, final Player player, final String name, final boolean inform);
+
     ClanRelation getClanRelationByClan(final Clan clan, final Clan target);
 
     ClanRelation getClanRelationByPlayer(final Player player, final Player target);

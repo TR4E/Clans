@@ -1,7 +1,7 @@
 package me.trae.clans.clan.events;
 
 import me.trae.clans.clan.Clan;
-import me.trae.clans.clan.events.abstracts.types.ClanPlayerCancellableEvent;
+import me.trae.clans.clan.events.abstracts.types.player.ClanPlayerCancellableEvent;
 import me.trae.core.client.Client;
 import org.bukkit.entity.Player;
 

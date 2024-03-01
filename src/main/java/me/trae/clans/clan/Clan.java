@@ -281,6 +281,11 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public boolean isTrustedByClan(final Clan clan) {
+        return this.isAllianceByClan(clan) && this.getAllianceByClan(clan).isTrusted();
+    }
+
+    @Override
     public String getAlliancesString(final ClanManager manager, final Clan receiverClan) {
         final List<String> list = new ArrayList<>();
 
@@ -398,6 +403,23 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     }
 
     @Override
+    public boolean isNeutralByClan(final Clan clan) {
+        if (clan.isAllianceByClan(this)) {
+            return false;
+        }
+
+        if (clan.isEnemyByClan(this)) {
+            return false;
+        }
+
+        if (clan.isPillageByClan(this) || this.isPillageByClan(clan)) {
+            return false;
+        }
+
+        return clan != this;
+    }
+
+    @Override
     public long getCreated() {
         return this.created;
     }
@@ -449,6 +471,11 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     @Override
     public boolean hasHome() {
         return this.getHome() != null;
+    }
+
+    @Override
+    public boolean compareMemberRoleByUUID(final UUID uuid, final UUID target) {
+        return this.isMemberByUUID(uuid) && this.isMemberByUUID(target) && this.getMemberByUUID(uuid).hasRole(this.getMemberByUUID(target).getRole());
     }
 
     @Override

@@ -14,6 +14,10 @@ public enum MemberRole implements IMemberRole {
         this.name = UtilFormat.cleanString(this.name());
     }
 
+    public static MemberRole getByOrdinal(final int ordinal) {
+        return values()[ordinal];
+    }
+
     @Override
     public String getName() {
         return this.name;

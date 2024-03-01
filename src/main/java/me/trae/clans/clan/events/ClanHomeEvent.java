@@ -5,9 +5,9 @@ import me.trae.clans.clan.events.abstracts.types.player.ClanPlayerCancellableEve
 import me.trae.core.client.Client;
 import org.bukkit.entity.Player;
 
-public class MemberLeaveEvent extends ClanPlayerCancellableEvent {
+public class ClanHomeEvent extends ClanPlayerCancellableEvent {
 
-    public MemberLeaveEvent(final Clan clan, final Player player, final Client client) {
+    public ClanHomeEvent(final Clan clan, final Player player, final Client client) {
         super(clan, player, client);
     }
 }

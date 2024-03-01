@@ -31,6 +31,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ClanManager extends SpigotManager implements IClanManager, RepositoryContainer<ClanRepository> {
 
@@ -176,6 +177,22 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
         });
 
         return UtilSearch.search(Clan.class, this.getClans().values(), predicates, consumer, function, "Clan Search", player, name, inform);
+    }
+
+    @Override
+    public Client searchMember(final Clan clan, final Player player, final String name, final boolean inform) {
+        final ClientManager clientManager = this.getInstance().getManagerByClass(ClientManager.class);
+
+        final List<Client> list = clan.getMembers().keySet().stream().map(clientManager::getClientByUUID).collect(Collectors.toList());
+
+        final List<Predicate<Client>> predicates = Arrays.asList(
+                (client -> client.getName().equalsIgnoreCase(name)),
+                (client -> client.getName().toLowerCase().contains(name.toLowerCase()))
+        );
+
+        final Function<Client, String> function = (client -> ClanRelation.SELF.getSuffix() + client.getName());
+
+        return UtilSearch.search(Client.class, list, predicates, null, function, "Member Search", player, name, inform);
     }
 
     @Override

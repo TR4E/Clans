@@ -1,4 +1,4 @@
-package me.trae.clans.clan.events.abstracts.types;
+package me.trae.clans.clan.events.abstracts.types.player;
 
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.events.abstracts.ClanCancellableEvent;

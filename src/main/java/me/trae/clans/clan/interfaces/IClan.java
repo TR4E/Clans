@@ -83,6 +83,8 @@ public interface IClan {
 
     boolean isAllianceByClan(final Clan clan);
 
+    boolean isTrustedByClan(final Clan clan);
+
     String getAlliancesString(final ClanManager manager, final Clan receiverClan);
 
     Map<String, Enemy> getEnemies();
@@ -111,6 +113,8 @@ public interface IClan {
 
     String getPillagesString(final ClanManager manager, final Clan receiverClan);
 
+    boolean isNeutralByClan(final Clan clan);
+
     long getCreated();
 
     long getLastOnline();
@@ -130,4 +134,6 @@ public interface IClan {
     String getHomeString();
 
     boolean hasHome();
+
+    boolean compareMemberRoleByUUID(final UUID uuid, final UUID target);
 }

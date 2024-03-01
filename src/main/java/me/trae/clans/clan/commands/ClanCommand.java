@@ -22,11 +22,24 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
 
     @Override
     public void registerSubModules() {
+        addSubModule(new AllyCommand(this));
         addSubModule(new CreateCommand(this));
+        addSubModule(new DemoteCommand(this));
         addSubModule(new DisbandCommand(this));
+        addSubModule(new EnemyCommand(this));
         addSubModule(new HelpCommand(this));
+        addSubModule(new HomeCommand(this));
+        addSubModule(new InviteCommand(this));
         addSubModule(new JoinCommand(this));
+        addSubModule(new KickCommand(this));
         addSubModule(new LeaveCommand(this));
+        addSubModule(new NeutralCommand(this));
+        addSubModule(new PromoteCommand(this));
+        addSubModule(new SetHomeCommand(this));
+        addSubModule(new TrustCommand(this));
+        addSubModule(new UnTrustCommand(this));
+
+        // TODO: ClaimCommand, UnClaimCommand, UnClaimAllCommand
     }
 
     @Override
