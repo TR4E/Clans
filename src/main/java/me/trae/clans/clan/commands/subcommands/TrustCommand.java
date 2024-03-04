@@ -97,6 +97,10 @@ public class TrustCommand extends ClanSubCommand implements EventContainer<ClanT
             return false;
         }
 
+        if (clan.isTrustedByClan(target)) {
+            UtilMessage.simpleMessage(player, "Clans", "You are already trusted with <var>!", Collections.singletonList(this.getModule().getManager().getClanFullName(target, this.getModule().getManager().getClanRelationByClan(clan, target))));
+        }
+
         if (!(client.isAdministrating())) {
             if (target.isAdmin()) {
                 UtilMessage.message(player, "Clans", "You cannot trust Admin Clans!");
