@@ -482,7 +482,7 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
     public Object getPropertyByValue(final ClanProperty property) {
         switch (property) {
             case TERRITORY:
-                return new ArrayList<>(this.getTerritory());
+                return this.getTerritory();
             case MEMBERS:
                 return this.getMembers().values().stream().map(Member::toString).collect(Collectors.toList());
             case ALLIANCES:

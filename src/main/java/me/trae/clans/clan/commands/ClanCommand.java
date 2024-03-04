@@ -29,6 +29,7 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
     @Override
     public void registerSubModules() {
         addSubModule(new AllyCommand(this));
+        addSubModule(new ClaimCommand(this));
         addSubModule(new CreateCommand(this));
         addSubModule(new DemoteCommand(this));
         addSubModule(new DisbandCommand(this));
@@ -43,9 +44,9 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
         addSubModule(new PromoteCommand(this));
         addSubModule(new SetHomeCommand(this));
         addSubModule(new TrustCommand(this));
+        addSubModule(new UnClaimAllCommand(this));
+        addSubModule(new UnClaimCommand(this));
         addSubModule(new UnTrustCommand(this));
-
-        // TODO: ClaimCommand, UnClaimCommand, UnClaimAllCommand
     }
 
     @Override

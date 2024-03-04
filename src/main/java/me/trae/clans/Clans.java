@@ -18,6 +18,7 @@ import me.trae.clans.weapon.WeaponManager;
 import me.trae.clans.world.WorldManager;
 import me.trae.clans.worldevent.WorldEventManager;
 import me.trae.core.Core;
+import me.trae.core.blockrestore.BlockRestoreManager;
 import me.trae.core.chat.ChatManager;
 import me.trae.core.client.ClientManager;
 import me.trae.core.command.CommandManager;
@@ -70,6 +71,7 @@ public class Clans extends SpigotPlugin {
 
             @Override
             public void registerManagers() {
+                addManager(BlockRestoreManager.class);
                 addManager(ChatManager.class);
                 addManager(ClientManager.class);
                 addManager(CommandManager.class);

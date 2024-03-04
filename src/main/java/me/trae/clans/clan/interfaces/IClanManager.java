@@ -62,5 +62,9 @@ public interface IClanManager {
 
     void messageAllies(final Clan clan, final String prefix, final String message, final List<String> variables, final List<UUID> ignore);
 
+    void outlineChunk(final Clan clan, final Chunk chunk);
+
+    void unOutlineChunk(final Clan clan, final Chunk chunk);
+
     LinkedHashMap<String, String> getClanInformation(final Player player, final Client client, final Clan playerClan, final Clan targetClan);
 }

@@ -13,6 +13,7 @@ import me.trae.clans.clan.modules.death.HandleCustomDeathMessageReceiver;
 import me.trae.clans.clan.modules.scoreboard.HandleScoreboardUpdate;
 import me.trae.clans.gamer.Gamer;
 import me.trae.clans.gamer.GamerManager;
+import me.trae.core.blockrestore.BlockRestoreManager;
 import me.trae.core.client.Client;
 import me.trae.core.client.ClientManager;
 import me.trae.core.framework.SpigotManager;
@@ -23,8 +24,10 @@ import me.trae.core.utility.UtilSearch;
 import me.trae.core.utility.UtilServer;
 import me.trae.framework.shared.database.repository.interfaces.RepositoryContainer;
 import me.trae.framework.shared.utility.enums.ChatColor;
+import me.trae.framework.shared.utility.enums.TimeUnit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -42,6 +45,8 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
 
         this.addPrimitive("Max-Squad-Count", 8);
         this.addPrimitive("Max-Claim-Limit", 8);
+
+        this.addPrimitive("Chunk-Outline-Duration", TimeUnit.MINUTES.getDuration() * 2);
     }
 
     @Override
@@ -246,7 +251,9 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
 
     @Override
     public void disbandClan(final Clan clan) {
-        // TODO: 18/02/2024 - Iterate through claims and get rid of Chunk Outlines
+        for (final Chunk chunk : clan.getTerritoryChunks()) {
+            this.unOutlineChunk(clan, chunk);
+        }
 
         for (final Clan target : this.getClans().values()) {
             if (target.isAllianceByClan(clan)) {
@@ -302,6 +309,16 @@ public class ClanManager extends SpigotManager implements IClanManager, Reposito
 
             this.messageClan(allianceClan, prefix, message, variables, ignore);
         }
+    }
+
+    @Override
+    public void outlineChunk(final Clan clan, final Chunk chunk) {
+        this.getInstance().getManagerByClass(BlockRestoreManager.class).outlineChunk(clan.getName(), chunk, Material.GLOWSTONE, this.getPrimitiveCasted(Long.class, "Chunk-Outline-Duration"));
+    }
+
+    @Override
+    public void unOutlineChunk(final Clan clan, final Chunk chunk) {
+        this.getInstance().getManagerByClass(BlockRestoreManager.class).unOutlineChunk(clan.getName(), chunk);
     }
 
     @Override
