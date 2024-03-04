@@ -12,6 +12,7 @@ import me.trae.core.gamer.local.events.ChatTypeUpdateEvent;
 import me.trae.core.utility.UtilMessage;
 import me.trae.core.utility.UtilServer;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.gamer.global.enums.ChatType;
 import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import me.trae.framework.shared.utility.UtilFormat;
 import me.trae.framework.shared.utility.enums.ChatColor;
@@ -33,6 +34,11 @@ public abstract class AbstractChatCommand extends PlayerCommand<ClanManager> imp
 
     @Override
     public void execute(final Player player, final Client client, final GlobalGamer globalGamer, final String[] args) {
+        if (this.getManager().getClanByPlayer(player) == null) {
+            UtilMessage.message(player, "Clans", "You are not in a Clan.");
+            return;
+        }
+
         if (args.length == 0) {
             final Gamer gamer = this.getInstance().getManagerByClass(GamerManager.class).getGamerByPlayer(player);
 
@@ -61,7 +67,7 @@ public abstract class AbstractChatCommand extends PlayerCommand<ClanManager> imp
 
         final Player player = event.getPlayer();
 
-        if (event.isType(this.getType())) {
+        if (event.isType(this.getType()) || !(event.isType(ChatType.GLOBAL_CHAT))) {
             return;
         }
 
@@ -71,7 +77,7 @@ public abstract class AbstractChatCommand extends PlayerCommand<ClanManager> imp
             return;
         }
 
-        gamer.setChatType(this.getType());
+        event.setType(this.getType());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

@@ -3,15 +3,21 @@ package me.trae.clans.clan.commands;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.ClanManager;
 import me.trae.clans.clan.commands.subcommands.*;
+import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
+import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.core.client.Client;
 import me.trae.core.command.types.PlayerCommand;
 import me.trae.core.utility.UtilMessage;
 import me.trae.framework.shared.client.enums.Rank;
+import me.trae.framework.shared.command.abstracts.IAbstractSubCommand;
 import me.trae.framework.shared.gamer.global.types.GlobalGamer;
 import me.trae.framework.shared.utility.UtilFormat;
+import me.trae.framework.shared.utility.UtilJava;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 public class ClanCommand extends PlayerCommand<ClanManager> {
@@ -88,5 +94,19 @@ public class ClanCommand extends PlayerCommand<ClanManager> {
     @Override
     public String getHelpPrefix() {
         return "Clans";
+    }
+
+    @Override
+    public void updateHelpList(final List<IAbstractSubCommand<?>> list) {
+        list.sort(Comparator.comparing(subCommand -> {
+            if (subCommand instanceof ClanSubCommand) {
+                final MemberRole requiredMemberRole = UtilJava.cast(ClanSubCommand.class, subCommand).getRequiredMemberRole();
+                if (requiredMemberRole != null) {
+                    return requiredMemberRole.ordinal();
+                }
+            }
+
+            return -1;
+        }));
     }
 }

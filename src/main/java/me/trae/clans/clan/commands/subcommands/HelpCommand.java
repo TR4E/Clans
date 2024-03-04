@@ -2,6 +2,7 @@ package me.trae.clans.clan.commands.subcommands;
 
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
+import me.trae.clans.clan.commands.chat.abstracts.AbstractChatCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
 import me.trae.core.client.Client;
 import me.trae.framework.shared.gamer.global.types.GlobalGamer;
@@ -16,5 +17,9 @@ public class HelpCommand extends ClanSubCommand {
     @Override
     public void execute(final Player player, final Client client, final GlobalGamer globalGamer, final Clan clan, final String[] args) {
         this.getModule().help(player);
+
+        for (final AbstractChatCommand chatCommand : this.getModule().getManager().getModulesByClass(AbstractChatCommand.class)) {
+            chatCommand.sendUsageMessage(player);
+        }
     }
 }

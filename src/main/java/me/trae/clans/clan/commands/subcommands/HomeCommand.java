@@ -4,6 +4,7 @@ import me.trae.clans.clan.AdminClan;
 import me.trae.clans.clan.Clan;
 import me.trae.clans.clan.commands.ClanCommand;
 import me.trae.clans.clan.commands.subcommands.abstracts.ClanSubCommand;
+import me.trae.clans.clan.data.enums.MemberRole;
 import me.trae.clans.clan.events.ClanHomeEvent;
 import me.trae.core.client.Client;
 import me.trae.core.countdown.CountdownManager;
@@ -28,6 +29,11 @@ public class HomeCommand extends ClanSubCommand implements EventContainer<ClanHo
     @Override
     public String getDescription() {
         return "Teleport to Clan Home";
+    }
+
+    @Override
+    public MemberRole getRequiredMemberRole() {
+        return MemberRole.RECRUIT;
     }
 
     @Override
