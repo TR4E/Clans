@@ -465,7 +465,7 @@ public class Clan implements IClan, PropertyContainer<ClanProperty> {
             return UtilLocation.locationToString(this.getHome());
         }
 
-        return ChatColor.RED + "Not set";
+        return "<red>Not set";
     }
 
     @Override
